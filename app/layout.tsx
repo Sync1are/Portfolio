@@ -24,11 +24,11 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Alex Mercer — Designer, Developer & Creator", // TODO: your name & tagline
+  title: "Aze Synclare — Designer, Developer & Creator", // TODO: your name & tagline
   description:
     "A personal digital world — work, art, taste, personality, and online presence.", // TODO: your meta description
   openGraph: {
-    title: "Alex Mercer", // TODO: your name
+    title: "Aze Synclare", // TODO: your name
     description: "Designer, developer & occasional dreamer.", // TODO: your tagline
     images: ["/og-image.png"], // TODO: add your OG image to /public/og-image.png
   },
