@@ -65,12 +65,32 @@ const Music = React.memo(function Music() {
         <motion.section
             ref={sectionRef}
             id="music"
-            className="section-padding border-t border-border"
+            className="relative section-padding border-t border-border overflow-hidden"
             animate={{ backgroundColor: sectionBg }}
             transition={{ duration: 0.9 }}
             style={{ backgroundColor: "transparent" }}
         >
-            <div className="max-w-[1180px] mx-auto px-11 max-sm:px-6">
+            {/* Blurred Background Image */}
+            <AnimatePresence>
+                {hoveredIndex !== null && SONGS[hoveredIndex].image && (
+                    <motion.div
+                        key={`bg-${hoveredIndex}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.35 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="absolute inset-0 z-0 pointer-events-none mix-blend-screen"
+                    >
+                        <img
+                            src={SONGS[hoveredIndex].image}
+                            alt=""
+                            className="w-full h-full object-cover blur-[100px] scale-[1.2]"
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <div className="relative z-10 max-w-[1180px] mx-auto px-11 max-sm:px-6">
                 <div className="reveal-item">
                     <SectionLabel>Music</SectionLabel>
                     <h2 className="font-display text-[2.8rem] max-sm:text-[2rem] font-light mb-14 leading-[1.1]">
