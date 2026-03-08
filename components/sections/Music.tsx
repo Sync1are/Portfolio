@@ -88,11 +88,19 @@ const Music = React.memo(function Music() {
                         >
                             {/* Album art placeholder */}
                             <motion.div
-                                className="w-[68px] h-[68px] max-sm:w-[50px] max-sm:h-[50px] border border-border bg-card overflow-hidden flex items-center justify-center text-[1.6rem] flex-shrink-0"
+                                className="w-[68px] h-[68px] max-sm:w-[50px] max-sm:h-[50px] border border-border bg-card overflow-hidden flex items-center justify-center text-[1.6rem] flex-shrink-0 relative"
                                 animate={{ scale: hoveredIndex === i ? 1.06 : 1 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                {song.emoji}
+                                {song.image ? (
+                                    <img
+                                        src={song.image}
+                                        alt={song.album}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    song.emoji
+                                )}
                             </motion.div>
 
                             {/* Song info */}

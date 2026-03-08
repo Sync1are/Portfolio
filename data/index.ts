@@ -57,6 +57,7 @@ export interface Song {
     color: string;
     emoji: string;
     audio: string; // URL to preview mp3 — leave "" and fill later
+    image?: string; // album art URL
 }
 
 export interface Movie {
@@ -267,11 +268,38 @@ const heights = [
 ];
 const bgs = ["var(--border)", "var(--accent-lt)", "var(--accent)", "var(--muted)", "var(--hover)", "var(--card)"];
 
-export const SKETCHES: Sketch[] = Array.from({ length: 32 }, (_, i) => ({
+const artFiles = [
+    "IMG202512031158041.jpg",
+    "IMG20251204140534.jpg",
+    "IMG20251218141051.jpg",
+    "IMG_20251118_141452.jpg",
+    "IMG_20251129_125155.jpg",
+    "IMG_20251202_123526.jpg",
+    "IMG_20251203_214119.jpg",
+    "IMG_20251204_140108.jpg",
+    "IMG_20251204_204906.jpg",
+    "IMG_20251205_195422.jpg",
+    "IMG_20251206_130102.jpg",
+    "IMG_20251206_215344.jpg",
+    "IMG_20251207_121107.jpg",
+    "IMG_20251208_000903.jpg",
+    "IMG_20251208_232438.jpg",
+    "IMG_20251217_194323.jpg",
+    "IMG_20260103_210842.jpg",
+    "IMG_20260104_165246.jpg",
+    "IMG_20260105_001445.jpg",
+    "IMG_20260202_001620.jpg",
+    "IMG_20260203_003945.jpg",
+    "IMG_202xc60106_123121.jpg",
+    "image0.jpg",
+    "rn_image_picker_lib_temp_42419024-c0c2-4db8-9400-691cc08a11db.jpg"
+];
+
+export const SKETCHES: Sketch[] = artFiles.map((file, i) => ({
     id: i + 1,
     title: `${categories[i % 4]} Study ${Math.floor(i / 4) + 1}`,
     category: categories[i % 4],
-    image: "", // TODO: drop your sketch image in /public/sketches/ and write the filename here
+    image: `/assets/Art/${file}`,
     bg: bgs[i % bgs.length],
     heightClass: heights[i % heights.length],
 }));
@@ -280,44 +308,40 @@ export const SKETCHES: Sketch[] = Array.from({ length: 32 }, (_, i) => ({
 
 export const SONGS: Song[] = [
     {
-        title: "Intro",
-        artist: "The xx",
-        album: "xx",
+        title: "Lie To Me",
+        artist: "5 Seconds of Summer",
+        album: "5SOS5",
         color: "#A89070",
-        emoji: "🎹",
-        audio: "", // TODO: paste preview .mp3 URL
+        emoji: "🎵",
+        audio: "/assets/audio/lie-to-me.mp3",
+        image: "/assets/images/lie-to-me.png",
     },
     {
-        title: "Motion Picture Soundtrack",
-        artist: "Radiohead",
-        album: "Kid A",
+        title: "Imagination",
+        artist: "Shawn Mendes",
+        album: "Handwritten",
         color: "#6B7F8E",
-        emoji: "🎻",
-        audio: "", // TODO: paste preview .mp3 URL
+        emoji: "🎸",
+        audio: "/assets/audio/imagination.mp3",
+        image: "/assets/images/imagination.png",
     },
     {
-        title: "Gymnopédie No. 1",
-        artist: "Erik Satie",
-        album: "Gymnopédies",
+        title: "When You're Gone",
+        artist: "Avril Lavigne",
+        album: "The Best Damn Thing",
         color: "#C4A882",
-        emoji: "🎼",
-        audio: "", // TODO: paste preview .mp3 URL
+        emoji: "🎤",
+        audio: "/assets/audio/when-youre-gone.mp3",
+        image: "/assets/images/when-youre-gone.png",
     },
     {
-        title: "Nuvole Bianche",
-        artist: "Ludovico Einaudi",
-        album: "Una Mattina",
+        title: "Afraid",
+        artist: "The Neighbourhood",
+        album: "I Love You.",
         color: "#8B9DAF",
-        emoji: "☁️",
-        audio: "", // TODO: paste preview .mp3 URL
-    },
-    {
-        title: "Tadow",
-        artist: "Masego & FKJ",
-        album: "Tadow",
-        color: "#A0785A",
-        emoji: "🎷",
-        audio: "", // TODO: paste preview .mp3 URL
+        emoji: "🎧",
+        audio: "/assets/audio/afraid.mp3",
+        image: "/assets/images/afraid.png",
     },
 ];
 

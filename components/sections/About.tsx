@@ -149,20 +149,29 @@ const About = React.memo(function About() {
                     </div>
 
                     {/* Right column — Stats grid */}
-                    <div className="grid grid-cols-2 gap-[2px] reveal-item stats-grid will-change-transform">
-                        {STATS.map((stat) => (
-                            <div
-                                key={stat.label}
-                                className="border border-border bg-surface p-9 hover:bg-card transition-colors duration-400"
-                            >
-                                <span className="block font-display text-[2.8rem] font-light leading-none">
-                                    {stat.value}
-                                </span>
-                                <span className="block text-[0.68rem] tracking-[0.16em] uppercase text-muted mt-2">
-                                    {stat.label}
-                                </span>
-                            </div>
-                        ))}
+                    <div className="flex flex-col gap-[2px] reveal-item stats-grid will-change-transform">
+                        <div className="border border-border overflow-hidden h-[300px] mb-[2px] relative group bg-surface">
+                            <img
+                                src="/assets/images/avatar.jpg"
+                                alt={PERSON.name}
+                                className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                            />
+                        </div>
+                        <div className="grid grid-cols-2 gap-[2px]">
+                            {STATS.map((stat) => (
+                                <div
+                                    key={stat.label}
+                                    className="border border-border bg-surface p-9 hover:bg-card transition-colors duration-400"
+                                >
+                                    <span className="block font-display text-[2.8rem] font-light leading-none">
+                                        {stat.value}
+                                    </span>
+                                    <span className="block text-[0.68rem] tracking-[0.16em] uppercase text-muted mt-2">
+                                        {stat.label}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
