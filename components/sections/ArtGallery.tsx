@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -10,6 +10,75 @@ import { SKETCHES, GALLERY_FILTERS } from "@/data";
 import type { GalleryFilter, Sketch } from "@/data";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function GalleryItem({ sketch, i, onClick }: { sketch: Sketch; i: number; onClick: () => void }) {
+    const mx = useMotionValue(0);
+    const my = useMotionValue(0);
+
+    const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [5, -5]), {
+        stiffness: 200,
+        damping: 20,
+    });
+    const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-5, 5]), {
+        stiffness: 200,
+        damping: 20,
+    });
+
+    const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        mx.set((e.clientX - rect.left) / rect.width - 0.5);
+        my.set((e.clientY - rect.top) / rect.height - 0.5);
+    };
+
+    const onMouseLeave = () => {
+        mx.set(0);
+        my.set(0);
+    };
+
+    return (
+        <motion.div
+            layout
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.3) }}
+            className="break-inside-avoid mb-[10px] relative overflow-hidden cursor-pointer group"
+            onClick={onClick}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            style={{
+                rotateX,
+                rotateY,
+                transformPerspective: 1000,
+            }}
+            whileHover={{ zIndex: 10, scale: 1.01 }}
+        >
+            {/* Image or Placeholder */}
+            {sketch.image ? (
+                <img
+                    src={sketch.image}
+                    alt={sketch.title}
+                    loading="lazy"
+                    className={`w-full ${sketch.heightClass} object-cover transition-transform duration-500 group-hover:scale-105`}
+                />
+            ) : (
+                <div
+                    className={`w-full ${sketch.heightClass} flex items-center justify-center font-display text-[0.95rem] transition-transform duration-500 group-hover:scale-105`}
+                    style={{ backgroundColor: sketch.bg, color: "#FDFAF3" }}
+                >
+                    {sketch.title}
+                </div>
+            )}
+
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-[rgba(35,29,18,0)] group-hover:bg-[rgba(35,29,18,0.46)] transition-colors duration-400 flex items-end p-4">
+                <span className="font-display text-[0.85rem] text-surface translate-y-[7px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
+                    {sketch.title}
+                </span>
+            </div>
+        </motion.div>
+    );
+}
 
 const ArtGallery = React.memo(function ArtGallery() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -77,8 +146,8 @@ const ArtGallery = React.memo(function ArtGallery() {
                             key={f}
                             onClick={() => setFilter(f)}
                             className={`px-5 py-[9px] text-[0.72rem] tracking-[0.12em] uppercase border transition-all duration-400 ${filter === f
-                                    ? "bg-accent border-accent text-surface"
-                                    : "border-border text-muted hover:border-accent-lt hover:text-ink"
+                                ? "bg-accent border-accent text-surface"
+                                : "border-border text-muted hover:border-accent-lt hover:text-ink"
                                 }`}
                         >
                             {f}
@@ -90,31 +159,12 @@ const ArtGallery = React.memo(function ArtGallery() {
                 <div className="columns-4 max-lg:columns-3 max-md:columns-2 gap-[10px]">
                     <AnimatePresence mode="popLayout">
                         {filtered.map((sketch, i) => (
-                            <motion.div
+                            <GalleryItem
                                 key={sketch.id}
-                                layout
-                                initial={{ opacity: 0, y: 18 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.3) }}
-                                className="break-inside-avoid mb-[10px] relative overflow-hidden cursor-pointer group"
+                                sketch={sketch}
+                                i={i}
                                 onClick={() => openLightbox(i)}
-                            >
-                                {/* Placeholder */}
-                                <div
-                                    className={`w-full ${sketch.heightClass} flex items-center justify-center font-display text-[0.95rem] transition-transform duration-500 group-hover:scale-105`}
-                                    style={{ backgroundColor: sketch.bg, color: "#FDFAF3" }}
-                                >
-                                    {sketch.title}
-                                </div>
-
-                                {/* Hover overlay */}
-                                <div className="absolute inset-0 bg-[rgba(35,29,18,0)] group-hover:bg-[rgba(35,29,18,0.46)] transition-colors duration-400 flex items-end p-4">
-                                    <span className="font-display text-[0.85rem] text-surface translate-y-[7px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
-                                        {sketch.title}
-                                    </span>
-                                </div>
-                            </motion.div>
+                            />
                         ))}
                     </AnimatePresence>
                 </div>
