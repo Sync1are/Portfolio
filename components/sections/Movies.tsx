@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -10,35 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Movies = React.memo(function Movies() {
     const sectionRef = useRef<HTMLElement>(null);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     useEffect(() => {
-        if (!sectionRef.current || !scrollContainerRef.current) return;
+        if (!sectionRef.current) return;
 
-        const scrollContainer = scrollContainerRef.current;
-
-        // Calculate how far to scroll based on total width difference
-        const getScrollAmount = () => {
-            const containerWidth = scrollContainer.scrollWidth;
-            const windowWidth = window.innerWidth;
-            return -(containerWidth - windowWidth + 100); // 100px padding
-        };
-
-        // Horizontal scroll pinning
-        const tween = gsap.to(scrollContainer, {
-            x: getScrollAmount,
-            ease: "none",
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top top",
-                end: () => `+=${getScrollAmount() * -1}`,
-                pin: true,
-                scrub: 1,
-                invalidateOnRefresh: true, // Recalculate on resize
-            },
-        });
-
-        // Intro reveal
         gsap.fromTo(
             sectionRef.current.querySelectorAll(".reveal-item"),
             { opacity: 0, y: 30 },
@@ -56,9 +32,7 @@ const Movies = React.memo(function Movies() {
         );
 
         return () => {
-            // Safely kill the specific tween we created for pinning to avoid memory leaks
-            tween.scrollTrigger?.kill();
-            tween.kill();
+            ScrollTrigger.getAll().forEach((st) => st.kill());
         };
     }, []);
 
@@ -66,54 +40,59 @@ const Movies = React.memo(function Movies() {
         <section
             ref={sectionRef}
             id="movies"
-            className="bg-bg border-t border-border overflow-hidden h-screen flex flex-col justify-center relative"
+            className="section-padding border-t border-border relative transition-colors duration-700 w-full"
+            style={{
+                backgroundColor: hoveredIndex !== null ? MOVIES[hoveredIndex].bg : "var(--color-bg)",
+            }}
         >
-            <div className="absolute top-24 left-11 max-sm:left-6 max-sm:top-16 z-10 w-full pointer-events-none">
-                <div className="reveal-item">
-                    <SectionLabel>Favourite Movies</SectionLabel>
-                    <h2 className="font-display text-[2.8rem] max-sm:text-[2rem] font-light leading-[1.1]">
+            <div className="max-w-[1180px] mx-auto px-11 max-sm:px-6 relative z-10">
+                <div className="reveal-item mb-20">
+                    <SectionLabel>
+                        <span className={`transition-colors duration-700 ${hoveredIndex !== null ? "text-[#EDE6D4]/60" : "text-muted"}`}>
+                            Favourite Movies
+                        </span>
+                    </SectionLabel>
+                    <h2 className={`font-display text-[2.8rem] max-sm:text-[2rem] font-light leading-[1.1] transition-colors duration-700 ${hoveredIndex !== null ? "text-[#EDE6D4]" : "text-ink"}`}>
                         Films that shaped me
                     </h2>
                 </div>
-            </div>
 
-            <div
-                ref={scrollContainerRef}
-                className="flex gap-8 px-11 max-sm:px-6 w-max mt-20 items-center overflow-visible will-change-transform"
-                style={{ paddingRight: "100px" }}
-            >
-                {MOVIES.map((movie) => (
-                    <div
-                        key={movie.title}
-                        className="w-[300px] h-[450px] max-sm:w-[240px] max-sm:h-[360px] flex-shrink-0 overflow-hidden relative cursor-pointer group"
-                        style={{ backgroundColor: movie.bg }}
-                    >
-                        {/* Poster placeholder */}
-                        {movie.poster ? (
-                            <img
-                                src={movie.poster}
-                                alt={movie.title}
-                                loading="lazy"
-                                decoding="async"
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06] sepia-[0.12] group-hover:sepia-0"
-                            />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center font-display text-[1.1rem] text-surface/80 transition-transform duration-500 group-hover:scale-[1.06]">
-                                {movie.title}
+                <div
+                    className="border-t transition-colors duration-700"
+                    style={{ borderColor: hoveredIndex !== null ? 'rgba(237, 230, 212, 0.2)' : 'var(--color-border)' }}
+                >
+                    {MOVIES.map((movie, idx) => (
+                        <div
+                            key={movie.title}
+                            className="reveal-item group relative border-b transition-colors duration-700"
+                            style={{ borderColor: hoveredIndex !== null ? 'rgba(237, 230, 212, 0.2)' : 'var(--color-border)' }}
+                            onMouseEnter={() => setHoveredIndex(idx)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                        >
+                            <div className="py-10 flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer relative z-10 w-full overflow-hidden">
+
+                                <div className="flex items-baseline gap-6 md:gap-12 relative z-10">
+                                    <span className={`font-display italic text-[1.5rem] md:text-[2rem] transition-colors duration-500 ${hoveredIndex !== null ? (hoveredIndex === idx ? "text-[#EDE6D4]" : "text-[#EDE6D4]/40") : "text-muted"}`}>
+                                        {String(idx + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3
+                                        className={`font-display text-[2.5rem] md:text-[4.5rem] leading-[1.1] tracking-tight transition-all duration-500
+                                        ${hoveredIndex !== null ? (hoveredIndex === idx ? "text-[#EDE6D4] translate-x-3 md:translate-x-6" : "text-[#EDE6D4]/30") : "text-ink"}`}
+                                    >
+                                        {movie.title}
+                                    </h3>
+                                </div>
+
+                                <div className={`flex flex-col text-left md:text-right relative z-10 transition-all duration-500
+                                    ${hoveredIndex !== null ? (hoveredIndex === idx ? "text-[#EDE6D4] opacity-100" : "text-[#EDE6D4] opacity-0") : "text-muted opacity-60 md:opacity-100"}`}>
+                                    <span className="text-[0.9rem] uppercase tracking-[0.15em] mb-1">{movie.director}</span>
+                                    <span className="font-display italic text-[1.2rem]">{movie.year}</span>
+                                </div>
+
                             </div>
-                        )}
-
-                        {/* Hover overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(25,19,10,0.88)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
-                            <h3 className="font-display text-[1.3rem] text-surface translate-y-3 group-hover:translate-y-0 transition-transform duration-400">
-                                {movie.title}
-                            </h3>
-                            <p className="text-[0.78rem] text-surface/60 mt-1 translate-y-3 group-hover:translate-y-0 transition-transform duration-400 delay-75">
-                                {movie.director} · {movie.year}
-                            </p>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </section>
     );

@@ -16,7 +16,10 @@ export default function FloatingCTA() {
     return (
         <motion.a
             href="mailto:hello@azesynclare.com"
-            className="fixed bottom-8 right-8 z-[9990] flex items-center justify-center bg-ink text-bg rounded-full overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-transparent dark:border-border dark:shadow-[0_10px_40px_rgba(0,0,0,0.4)]"
+            className="fixed bottom-8 right-8 z-[9990] flex items-center justify-center rounded-full overflow-hidden mix-blend-difference border-[1.5px] border-[#EDE6D4] text-[#EDE6D4]"
+            style={{
+                backgroundColor: "transparent"
+            }}
             animate={{
                 width: isScrolled ? "54px" : "170px",
                 height: "54px",
