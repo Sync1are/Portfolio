@@ -34,6 +34,10 @@ export const metadata: Metadata = {
   },
 };
 
+import Preloader from "@/components/ui/Preloader";
+import PageCounter from "@/components/ui/PageCounter";
+import FloatingCTA from "@/components/ui/FloatingCTA";
+
 export default function RootLayout({
   children,
 }: {
@@ -50,8 +54,11 @@ export default function RootLayout({
             sparkCount={8}
             duration={400}
           >
+            <Preloader />
             <LenisProvider>
               <Cursor />
+              <PageCounter />
+              <FloatingCTA />
               {children}
             </LenisProvider>
           </ClickSpark>

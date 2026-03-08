@@ -5,6 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
+import MagneticButton from "@/components/ui/MagneticButton";
 import { WEB_PROJECTS } from "@/data";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -82,24 +83,28 @@ function ProjectCard({ project }: { project: typeof WEB_PROJECTS[number] }) {
             {/* Links */}
             <div className="flex gap-6">
                 {project.liveUrl && (
-                    <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[0.78rem] text-accent flex items-center gap-1 group/link hover:gap-2 transition-[gap] duration-300 no-underline"
-                    >
-                        Live <span>→</span>
-                    </a>
+                    <MagneticButton>
+                        <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[0.78rem] text-accent flex items-center gap-1 group/link hover:gap-2 transition-[gap] duration-300 no-underline p-1"
+                        >
+                            Live <span>→</span>
+                        </a>
+                    </MagneticButton>
                 )}
                 {project.repoUrl && (
-                    <a
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[0.78rem] text-accent flex items-center gap-1 group/link hover:gap-2 transition-[gap] duration-300 no-underline"
-                    >
-                        Code <span>→</span>
-                    </a>
+                    <MagneticButton>
+                        <a
+                            href={project.repoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[0.78rem] text-accent flex items-center gap-1 group/link hover:gap-2 transition-[gap] duration-300 no-underline p-1"
+                        >
+                            Code <span>→</span>
+                        </a>
+                    </MagneticButton>
                 )}
                 {!project.liveUrl && !project.repoUrl && (
                     <span className="text-[0.72rem] text-muted italic">Links coming soon</span>

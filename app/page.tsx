@@ -20,6 +20,23 @@ const Hobbies = dynamic(() => import("@/components/sections/Hobbies"));
 const Socials = dynamic(() => import("@/components/sections/Socials"));
 const Footer = dynamic(() => import("@/components/sections/Footer"));
 
+function Quote({ text, author }: { text: string; author?: string }) {
+  return (
+    <section className="section-padding bg-bg relative overflow-hidden flex items-center justify-center px-11 max-sm:px-6 border-t border-border no-count">
+      <div className="max-w-[900px] mx-auto text-center reveal-item">
+        <h2 className="font-display font-light italic text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.1] text-accent mb-6">
+          &ldquo;{text}&rdquo;
+        </h2>
+        {author && (
+          <span className="block text-[0.8rem] tracking-[0.2em] uppercase text-muted">
+            — {author}
+          </span>
+        )}
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   return (
     <>
@@ -31,6 +48,7 @@ export default function HomePage() {
         <WebProjects />
         <CodeProjects />
         <ArtGallery />
+        <Quote text="Technology is best when it brings people together." author="Matt Mullenweg" />
         <Music />
         <Movies />
         <Series />

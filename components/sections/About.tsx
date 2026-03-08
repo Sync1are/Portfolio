@@ -70,6 +70,25 @@ const About = React.memo(function About() {
             );
         }
 
+        // Bio Highlight Scroll Effect
+        const bioParas = sectionRef.current.querySelectorAll(".bio-content p");
+        bioParas.forEach((p) => {
+            const strongs = p.querySelectorAll("strong");
+            gsap.fromTo(
+                strongs,
+                { color: "var(--color-muted)" },
+                {
+                    color: "var(--color-ink)",
+                    scrollTrigger: {
+                        trigger: p,
+                        start: "top 85%",
+                        end: "top 30%",
+                        scrub: true,
+                    },
+                }
+            );
+        });
+
         return () => {
             ScrollTrigger.getAll().forEach((st) => st.kill());
         };
@@ -92,11 +111,11 @@ const About = React.memo(function About() {
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-16">
                     {/* Left column — Bio & Languages */}
                     <div>
-                        <div className="space-y-6 mb-14">
+                        <div className="space-y-6 mb-14 bio-content">
                             {PERSON.bio.map((para, i) => (
                                 <p
                                     key={i}
-                                    className="reveal-item text-muted leading-[1.95] text-[0.92rem]"
+                                    className="reveal-item text-muted leading-[1.95] text-[0.92rem] [&>strong]:transition-colors [&>strong]:duration-500 [&>strong]:font-medium"
                                     dangerouslySetInnerHTML={{ __html: para }}
                                 />
                             ))}
