@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -45,6 +46,31 @@ const Movies = React.memo(function Movies() {
                 backgroundColor: hoveredIndex !== null ? MOVIES[hoveredIndex].bg : "var(--color-bg)",
             }}
         >
+            {/* Background Video */}
+            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <AnimatePresence>
+                    {hoveredIndex !== null && MOVIES[hoveredIndex].trailer && (
+                        <motion.div
+                            key={`bg-video-${hoveredIndex}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.35 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="absolute inset-0 mix-blend-screen"
+                        >
+                            <video
+                                src={MOVIES[hoveredIndex].trailer}
+                                autoPlay
+                                loop
+                                playsInline
+                                ref={(el) => { if (el) el.volume = 0.5; }}
+                                className="w-full h-full object-cover grayscale"
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
             <div className="max-w-[1180px] mx-auto px-11 max-sm:px-6 relative z-10">
                 <div className="reveal-item mb-20">
                     <SectionLabel>

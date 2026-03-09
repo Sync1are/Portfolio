@@ -45,32 +45,42 @@ const CodeProjects = React.memo(function CodeProjects() {
                 </div>
 
                 <div className="divide-y divide-border">
-                    {CODE_PROJECTS.map((project, i) => (
-                        <div
-                            key={project.title}
-                            className="reveal-item grid grid-cols-[56px_1fr_auto] items-center gap-8 py-[26px] hover:pl-3 transition-[padding] duration-300 max-sm:grid-cols-[40px_1fr] max-sm:gap-4"
-                        >
-                            {/* Row number */}
-                            <span className="font-display text-[2rem] font-light text-border leading-none">
-                                {String(i + 1).padStart(2, "0")}
-                            </span>
+                    {CODE_PROJECTS.map((project, i) => {
+                        const Wrapper = project.link ? "a" : "div";
+                        const props = project.link ? { href: project.link, target: "_blank", rel: "noopener noreferrer" } : {};
 
-                            {/* Info */}
-                            <div>
-                                <h3 className="font-display text-[1.25rem] leading-[1.3] mb-1">
-                                    {project.title}
-                                </h3>
-                                <p className="text-[0.81rem] text-muted leading-[1.6]">
-                                    {project.description}
-                                </p>
-                            </div>
+                        return (
+                            <Wrapper
+                                key={project.title}
+                                {...props}
+                                className={`reveal-item grid grid-cols-[56px_1fr_auto] items-center gap-8 py-[26px] hover:pl-3 transition-all duration-300 max-sm:grid-cols-[40px_1fr] max-sm:gap-4 ${project.link ? "cursor-pointer hover:text-accent" : ""
+                                    }`}
+                            >
+                                {/* Row number */}
+                                <span className="font-display text-[2rem] font-light text-border leading-none">
+                                    {String(i + 1).padStart(2, "0")}
+                                </span>
 
-                            {/* Stack */}
-                            <span className="text-[0.68rem] tracking-[0.1em] uppercase text-accent whitespace-nowrap max-sm:hidden">
-                                {project.stack}
-                            </span>
-                        </div>
-                    ))}
+                                {/* Info */}
+                                <div>
+                                    <h3 className="font-display text-[1.25rem] leading-[1.3] mb-1 group-hover:text-accent transition-colors">
+                                        {project.title}
+                                        {project.link && (
+                                            <span className="inline-block ml-2 text-[0.8rem] opacity-50">↗</span>
+                                        )}
+                                    </h3>
+                                    <p className="text-[0.81rem] text-muted leading-[1.6]">
+                                        {project.description}
+                                    </p>
+                                </div>
+
+                                {/* Stack */}
+                                <span className="text-[0.68rem] tracking-[0.1em] uppercase text-accent whitespace-nowrap max-sm:hidden">
+                                    {project.stack}
+                                </span>
+                            </Wrapper>
+                        );
+                    })}
                 </div>
             </div>
         </section>

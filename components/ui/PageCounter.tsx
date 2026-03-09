@@ -88,7 +88,7 @@ export default function PageCounter() {
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="font-display italic text-[30vw] leading-none text-accent"
                     >
-                        {formatNumber(currentSection)}
+                        {currentSection}
                     </motion.div>
                 </AnimatePresence>
             </div>

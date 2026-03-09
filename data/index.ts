@@ -39,6 +39,7 @@ export interface CodeProject {
     title: string;
     description: string;
     stack: string;
+    link?: string;
 }
 
 export interface Sketch {
@@ -66,6 +67,7 @@ export interface Movie {
     year: string;
     poster: string; // path in /public/posters — leave "" for placeholder
     bg: string;
+    trailer?: string;
 }
 
 export interface Series {
@@ -75,6 +77,7 @@ export interface Series {
     seasons: number;
     poster: string;
     bg: string;
+    trailer?: string;
 }
 
 export interface Game {
@@ -128,7 +131,8 @@ export const STATS: Stat[] = [
     { value: "30+", label: "Sketches" },
     { value: "6", label: "Web Projects" },
     { value: "4+", label: "Code Projects" },
-    { value: "4", label: "Languages Spoken" },
+    { value: "4", label: "Languages" },
+    { value: "80+", label: "WPM" },
 ];
 
 /* ── Skills ───────────────────────────────────────────────── */
@@ -217,10 +221,11 @@ export const WEB_PROJECTS: Project[] = [
 
 export const CODE_PROJECTS: CodeProject[] = [
     {
-        title: "Neural Style Transfer CLI",
+        title: "Dynamic Cursor",
         description:
-            "A command-line tool that applies artistic style transfer to images using a pre-trained VGG-19 network.",
-        stack: "Python · PyTorch",
+            "A project where if the cursor is in a black region it auto turns white and in a white region it auto turns black.",
+        stack: "TypeScript · JavaScript",
+        link: "https://github.com/Sync1are/Adaptive-Cursor"
     },
     {
         title: "Market Data Pipeline",
@@ -354,27 +359,31 @@ export const MOVIES: Movie[] = [
         year: "2014",
         poster: "", // TODO: drop poster in /public/posters/
         bg: "#2A2520",
+        trailer: "/assets/trailers/Interstellar - Trailer - Official Warner Bros. UK.mp4",
     },
     {
-        title: "The Grand Budapest Hotel",
-        director: "Wes Anderson",
-        year: "2014",
+        title: "La La Land",
+        director: "Damien Chazelle",
+        year: "2016",
         poster: "", // TODO: drop poster in /public/posters/
         bg: "#8B4557",
+        trailer: "/assets/trailers/La La Land (2016 Movie) Official Trailer – 'Dreamers'.mp4",
     },
     {
-        title: "Blade Runner 2049",
-        director: "Denis Villeneuve",
-        year: "2017",
+        title: "(500) Days of Summer",
+        director: "Marc Webb",
+        year: "2009",
         poster: "", // TODO: drop poster in /public/posters/
         bg: "#3B3A30",
+        trailer: "/assets/trailers/500 DAYS OF SUMMER  Official Trailer  FOX Searchlight.mp4",
     },
     {
-        title: "Spirited Away",
-        director: "Hayao Miyazaki",
-        year: "2001",
+        title: "Fight Club",
+        director: "David Fincher",
+        year: "1999",
         poster: "", // TODO: drop poster in /public/posters/
         bg: "#2D4A5A",
+        trailer: "/assets/trailers/Fight Club  20th Anniversary  20th Century FOX.mp4",
     },
 ];
 
@@ -388,6 +397,7 @@ export const SERIES: Series[] = [
         seasons: 2,
         poster: "", // TODO
         bg: "#3A2F45",
+        trailer: "/assets/webseries/Arcane.mp4",
     },
     {
         title: "Dark",
@@ -396,22 +406,25 @@ export const SERIES: Series[] = [
         seasons: 3,
         poster: "", // TODO
         bg: "#2A2A2A",
+        trailer: "/assets/webseries/Dark.mp4",
     },
     {
-        title: "Fleabag",
-        genre: "Comedy · Drama",
-        year: "2016",
-        seasons: 2,
+        title: "Game of Thrones",
+        genre: "Drama · Fantasy",
+        year: "2011",
+        seasons: 8,
         poster: "", // TODO
-        bg: "#5A3535",
+        bg: "#323B50", // A cool dark blue
+        trailer: "/assets/webseries/Game Of Thriones.mp4",
     },
     {
-        title: "Mr. Robot",
-        genre: "Thriller · Drama",
-        year: "2015",
-        seasons: 4,
+        title: "Peaky Blinders",
+        genre: "Crime · Drama",
+        year: "2013",
+        seasons: 6,
         poster: "", // TODO
         bg: "#1A2A1A",
+        trailer: "/assets/webseries/Peaky Blinders.mp4",
     },
 ];
 

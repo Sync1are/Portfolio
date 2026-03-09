@@ -6,15 +6,12 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { SKILLS } from "@/data";
+import { LogoLoop } from "@/components/ui/LogoLoop";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Duplicate the skills array a few times to ensure the marquee is wide enough
-const MARQUEE_SKILLS = [...SKILLS, ...SKILLS, ...SKILLS, ...SKILLS];
-
 const Skills = React.memo(function Skills() {
     const sectionRef = useRef<HTMLElement>(null);
-    const marqueeRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -51,33 +48,26 @@ const Skills = React.memo(function Skills() {
             </div>
 
             {/* Infinite Marquee */}
-            <div className="reveal-item relative w-full flex overflow-hidden mt-6">
-                {/* Left/Right masks for a fade effect */}
-                <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-bg to-transparent z-10 pointer-events-none" />
-                <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-bg to-transparent z-10 pointer-events-none" />
-
-                <div
-                    ref={marqueeRef}
-                    className="flex gap-[10px] whitespace-nowrap w-max will-change-transform"
-                    style={{ animation: "marquee 40s linear infinite reverse" }}
-                    onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.animationPlayState = "paused";
-                    }}
-                    onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.animationPlayState = "running";
-                    }}
-                >
-                    {MARQUEE_SKILLS.map((skill, index) => (
-                        <motion.span
-                            key={`${skill}-${index}`}
-                            whileHover={{ scale: 1.05 }}
-                            className="relative border border-border px-6 py-3 text-[0.85rem] tracking-[0.08em] text-muted overflow-hidden transition-all duration-400 hover:text-ink hover:border-accent-lt hover:bg-card group cursor-pointer inline-block"
-                        >
-                            {skill}
-                            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent transition-[width] duration-400 group-hover:w-full" />
-                        </motion.span>
-                    ))}
-                </div>
+            <div className="reveal-item relative w-full overflow-hidden mt-6 h-20 flex items-center">
+                <LogoLoop
+                    logos={SKILLS.map((skill, index) => ({
+                        node: (
+                            <span className="relative border border-border px-6 py-3 text-[0.85rem] tracking-[0.08em] text-muted overflow-hidden transition-all duration-400 hover:text-ink hover:border-accent-lt hover:bg-card group cursor-pointer inline-block">
+                                {skill}
+                                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent transition-[width] duration-400 group-hover:w-full" />
+                            </span>
+                        )
+                    }))}
+                    speed={60}
+                    direction="left"
+                    logoHeight={56}
+                    gap={10}
+                    pauseOnHover={false}
+                    hoverSpeed={0} // Stops playing on hover
+                    scaleOnHover={false}
+                    fadeOut={true}
+                    fadeOutColor="var(--bg)"
+                />
             </div>
         </section>
     );

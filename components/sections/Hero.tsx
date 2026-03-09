@@ -147,7 +147,7 @@ const Hero = React.memo(function Hero() {
                         marqueeText={`${PERSON.firstName} ${PERSON.lastName} ✦ Designer ✦ Developer ✦ `}
                         speed={1.5}
                         direction="right"
-                        curveAmount={350}
+                        curveAmount={400}
                         interactive={true}
                         className="text-accent opacity-[0.85] font-display text-[8rem]"
                     />
@@ -158,7 +158,7 @@ const Hero = React.memo(function Hero() {
                         marqueeText={`${PERSON.firstName} ${PERSON.lastName} ✦ Designer ✦ Developer ✦ `}
                         speed={1.5}
                         direction="left"
-                        curveAmount={350}
+                        curveAmount={400}
                         interactive={true}
                         className="text-accent opacity-[0.85] font-display text-[8rem]"
                     />

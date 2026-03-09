@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import type { Sketch } from "@/data";
 
 interface LightboxProps {
@@ -43,6 +43,24 @@ export default function Lightbox({
         };
     }, [isOpen, onKey]);
 
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const floatX = useSpring(x, { stiffness: 70, damping: 20 });
+    const floatY = useSpring(y, { stiffness: 70, damping: 20 });
+
+    const handleMouseMove = useCallback((e: React.MouseEvent) => {
+        const { innerWidth, innerHeight } = window;
+        const xOffset = (e.clientX / innerWidth - 0.5) * -60; // Reverse direction for natural feel
+        const yOffset = (e.clientY / innerHeight - 0.5) * -60;
+        x.set(xOffset);
+        y.set(yOffset);
+    }, [x, y]);
+
+    useEffect(() => {
+        x.set(0);
+        y.set(0);
+    }, [currentIndex, isOpen, x, y]);
+
     return (
         <AnimatePresence>
             {isOpen && current && (
@@ -54,6 +72,7 @@ export default function Lightbox({
                     className="fixed inset-0 z-[500] flex flex-col items-center justify-center"
                     style={{ backgroundColor: "rgba(25, 19, 10, 0.95)" }}
                     onClick={onClose}
+                    onMouseMove={handleMouseMove}
                 >
                     {/* Close button */}
                     <button
@@ -92,6 +111,7 @@ export default function Lightbox({
                         exit={{ scale: 0.92, opacity: 0 }}
                         transition={{ duration: 0.35 }}
                         className="max-w-[78vw] max-h-[80vh] flex items-center justify-center"
+                        style={{ x: floatX, y: floatY }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {current.image ? (
