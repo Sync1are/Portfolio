@@ -15,83 +15,83 @@ const About = React.memo(function About() {
     useEffect(() => {
         if (!sectionRef.current) return;
 
-        // Section reveal
-        gsap.fromTo(
-            sectionRef.current.querySelectorAll(".reveal-item"),
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.7,
-                stagger: 0.1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                },
-            }
-        );
-
-        // Language bars
-        barsRef.current.forEach((bar, i) => {
-            if (!bar) return;
+        const ctx = gsap.context(() => {
+            // Section reveal
             gsap.fromTo(
-                bar,
-                { scaleX: 0 },
+                ".reveal-item",
+                { opacity: 0, y: 30 },
                 {
-                    scaleX: LANGUAGES[i].percent / 100,
-                    duration: 1.1,
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: 0.1,
                     ease: "power2.out",
-                    delay: i * 0.12,
-                    scrollTrigger: {
-                        trigger: bar,
-                        start: "top 90%",
-                    },
-                }
-            );
-        });
-
-        // Stats Grid Parallax
-        const statsGrid = sectionRef.current.querySelector(".stats-grid");
-        if (statsGrid) {
-            gsap.fromTo(
-                statsGrid,
-                { y: 50 },
-                {
-                    y: -50,
-                    ease: "none",
                     scrollTrigger: {
                         trigger: sectionRef.current,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true,
-                    },
-                }
-            );
-        }
-
-        // Bio Highlight Scroll Effect
-        const bioParas = sectionRef.current.querySelectorAll(".bio-content p");
-        bioParas.forEach((p) => {
-            const strongs = p.querySelectorAll("strong");
-            gsap.fromTo(
-                strongs,
-                { color: "var(--color-muted)" },
-                {
-                    color: "var(--color-ink)",
-                    scrollTrigger: {
-                        trigger: p,
                         start: "top 85%",
-                        end: "top 30%",
-                        scrub: true,
                     },
                 }
             );
-        });
 
-        return () => {
-            ScrollTrigger.getAll().forEach((st) => st.kill());
-        };
+            // Language bars
+            barsRef.current.forEach((bar, i) => {
+                if (!bar) return;
+                gsap.fromTo(
+                    bar,
+                    { scaleX: 0 },
+                    {
+                        scaleX: LANGUAGES[i].percent / 100,
+                        duration: 1.1,
+                        ease: "power2.out",
+                        delay: i * 0.12,
+                        scrollTrigger: {
+                            trigger: bar,
+                            start: "top 90%",
+                        },
+                    }
+                );
+            });
+
+            // Stats Grid Parallax
+            const statsGrid = sectionRef.current?.querySelector(".stats-grid");
+            if (statsGrid) {
+                gsap.fromTo(
+                    statsGrid,
+                    { y: 50 },
+                    {
+                        y: -50,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true,
+                        },
+                    }
+                );
+            }
+
+            // Bio Highlight Scroll Effect
+            const bioParas = sectionRef.current?.querySelectorAll(".bio-content p") || [];
+            bioParas.forEach((p) => {
+                const strongs = p.querySelectorAll("strong");
+                gsap.fromTo(
+                    strongs,
+                    { color: "var(--color-muted)" },
+                    {
+                        color: "var(--color-ink)",
+                        scrollTrigger: {
+                            trigger: p,
+                            start: "top 85%",
+                            end: "top 30%",
+                            scrub: true,
+                        },
+                    }
+                );
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
     }, []);
 
     return (

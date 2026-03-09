@@ -2,9 +2,13 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Nav from "@/components/sections/Nav";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Dynamically import everything below the fold to massively reduce main thread blocking
 // during hydration and initial load.
@@ -21,8 +25,31 @@ const Socials = dynamic(() => import("@/components/sections/Socials"));
 const Footer = dynamic(() => import("@/components/sections/Footer"));
 
 function Quote({ text, author }: { text: string; author?: string }) {
+  const sectionRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".reveal-item",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="section-padding bg-bg relative overflow-hidden flex items-center justify-center px-11 max-sm:px-6 border-t border-border no-count">
+    <section ref={sectionRef} className="section-padding bg-bg relative overflow-hidden flex items-center justify-center px-11 max-sm:px-6 border-t border-border no-count">
       <div className="max-w-[900px] mx-auto text-center reveal-item">
         <h2 className="font-display font-light italic text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.1] text-accent mb-6">
           &ldquo;{text}&rdquo;

@@ -147,44 +147,45 @@ const WebProjects = React.memo(function WebProjects() {
 
     useEffect(() => {
         if (!sectionRef.current) return;
-        gsap.fromTo(
-            sectionRef.current.querySelectorAll(".reveal-item"),
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.7,
-                stagger: 0.1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                },
-            }
-        );
 
-        // Parallax for the grid
-        const grid = sectionRef.current.querySelector(".project-grid");
-        if (grid) {
+        const ctx = gsap.context(() => {
             gsap.fromTo(
-                grid,
-                { y: 60 },
+                ".reveal-item",
+                { opacity: 0, y: 30 },
                 {
-                    y: -60,
-                    ease: "none",
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: 0.1,
+                    ease: "power2.out",
                     scrollTrigger: {
                         trigger: sectionRef.current,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true,
+                        start: "top 85%",
                     },
                 }
             );
-        }
 
-        return () => {
-            ScrollTrigger.getAll().forEach((st) => st.kill());
-        };
+            // Parallax for the grid
+            const grid = sectionRef.current?.querySelector(".project-grid");
+            if (grid) {
+                gsap.fromTo(
+                    grid,
+                    { y: 60 },
+                    {
+                        y: -60,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true,
+                        },
+                    }
+                );
+            }
+        }, sectionRef);
+
+        return () => ctx.revert();
     }, []);
 
     return (

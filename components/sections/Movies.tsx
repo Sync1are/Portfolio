@@ -16,25 +16,25 @@ const Movies = React.memo(function Movies() {
     useEffect(() => {
         if (!sectionRef.current) return;
 
-        gsap.fromTo(
-            sectionRef.current.querySelectorAll(".reveal-item"),
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.7,
-                stagger: 0.1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                },
-            }
-        );
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                ".reveal-item",
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: 0.1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top 85%",
+                    },
+                }
+            );
+        }, sectionRef);
 
-        return () => {
-            ScrollTrigger.getAll().forEach((st) => st.kill());
-        };
+        return () => ctx.revert();
     }, []);
 
     return (

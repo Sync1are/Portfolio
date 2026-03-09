@@ -2,7 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PERSON } from "@/data";
+
+gsap.registerPlugin(ScrollTrigger);
 
 import CurvedLoop from "@/components/ui/CurvedLoop";
 
@@ -18,114 +21,117 @@ const Hero = React.memo(function Hero() {
     const canvasWrapRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-        // Canvas fade in
-        if (canvasWrapRef.current) {
-            tl.fromTo(
-                canvasWrapRef.current,
-                { opacity: 0 },
-                { opacity: 1, duration: 1.2 },
-                0
-            );
-        }
+            // Canvas fade in
+            if (canvasWrapRef.current) {
+                tl.fromTo(
+                    canvasWrapRef.current,
+                    { opacity: 0 },
+                    { opacity: 1, duration: 1.2 },
+                    0
+                );
+            }
 
-        // Eyebrow
-        if (eyebrowRef.current) {
-            tl.fromTo(
-                eyebrowRef.current,
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.6 },
-                0.4
-            );
-        }
+            // Eyebrow
+            if (eyebrowRef.current) {
+                tl.fromTo(
+                    eyebrowRef.current,
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.6 },
+                    0.4
+                );
+            }
 
-        // Name line 1 — cinematic slide up
-        if (line1Ref.current) {
-            tl.fromTo(
-                line1Ref.current,
-                { y: "105%" },
-                { y: "0%", duration: 0.8, ease: "power3.out" },
-                0.55
-            );
-        }
+            // Name line 1 — cinematic slide up
+            if (line1Ref.current) {
+                tl.fromTo(
+                    line1Ref.current,
+                    { y: "105%" },
+                    { y: "0%", duration: 0.8, ease: "power3.out" },
+                    0.55
+                );
+            }
 
-        // Name line 2
-        if (line2Ref.current) {
-            tl.fromTo(
-                line2Ref.current,
-                { y: "105%" },
-                { y: "0%", duration: 0.8, ease: "power3.out" },
-                0.75
-            );
-        }
+            // Name line 2
+            if (line2Ref.current) {
+                tl.fromTo(
+                    line2Ref.current,
+                    { y: "105%" },
+                    { y: "0%", duration: 0.8, ease: "power3.out" },
+                    0.75
+                );
+            }
 
-        // Accent rule
-        if (ruleRef.current) {
-            tl.fromTo(
-                ruleRef.current,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, duration: 0.5 },
-                1.05
-            );
-        }
+            // Accent rule
+            if (ruleRef.current) {
+                tl.fromTo(
+                    ruleRef.current,
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0, duration: 0.5 },
+                    1.05
+                );
+            }
 
-        // Tagline
-        if (taglineRef.current) {
-            tl.fromTo(
-                taglineRef.current,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, duration: 0.5 },
-                1.15
-            );
-        }
+            // Tagline
+            if (taglineRef.current) {
+                tl.fromTo(
+                    taglineRef.current,
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0, duration: 0.5 },
+                    1.15
+                );
+            }
 
-        // Scroll indicator
-        if (scrollRef.current) {
-            tl.fromTo(
-                scrollRef.current,
-                { opacity: 0, y: 10 },
-                { opacity: 1, y: 0, duration: 0.5 },
-                1.6
-            );
-        }
+            // Scroll indicator
+            if (scrollRef.current) {
+                tl.fromTo(
+                    scrollRef.current,
+                    { opacity: 0, y: 10 },
+                    { opacity: 1, y: 0, duration: 0.5 },
+                    1.6
+                );
+            }
 
-        // Ghost text float
-        if (ghostRef.current) {
-            gsap.to(ghostRef.current, {
-                y: 20,
-                duration: 3.5,
-                ease: "sine.inOut",
-                yoyo: true,
-                repeat: -1,
-            });
+            // Ghost text float
+            if (ghostRef.current) {
+                gsap.to(ghostRef.current, {
+                    y: 20,
+                    duration: 3.5,
+                    ease: "sine.inOut",
+                    yoyo: true,
+                    repeat: -1,
+                });
 
-            // Parallax for ghost text
-            gsap.to(ghostRef.current, {
-                y: 150,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                }
-            });
-        }
+                // Parallax for ghost text
+                gsap.to(ghostRef.current, {
+                    y: 150,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    }
+                });
+            }
 
-        // Parallax for canvas
-        if (canvasWrapRef.current) {
-            gsap.to(canvasWrapRef.current, {
-                y: "30%",
-                ease: "none",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                }
-            });
-        }
+            // Parallax for canvas
+            if (canvasWrapRef.current) {
+                gsap.to(canvasWrapRef.current, {
+                    y: "30%",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    }
+                });
+            }
+        }, sectionRef);
+        return () => ctx.revert();
     }, []);
 
     return (
