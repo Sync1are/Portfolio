@@ -33,6 +33,7 @@ export interface Project {
     liveUrl: string;
     repoUrl: string;
     bg: string;
+    iframeUrl?: string;
 }
 
 export interface CodeProject {
@@ -157,6 +158,17 @@ export const SKILLS: string[] = [
 export const WEB_PROJECTS: Project[] = [
     {
         number: "01",
+        title: "Sperun — Creative Studio",
+        description:
+            "A portfolio and sandbox for an independent creative studio building engaging modern digital experiences.",
+        tags: ["Next.js", "Tailwind", "Framer Motion"],
+        liveUrl: "https://website-sperun.vercel.app/",
+        repoUrl: "",
+        bg: "var(--border)",
+        iframeUrl: "https://website-sperun.vercel.app/",
+    },
+    {
+        number: "02",
         title: "Spectral — Portfolio Theme",
         description:
             "A minimal portfolio template built with Next.js and Tailwind. Features scroll-driven animations, dark mode, and an editorial layout inspired by print design.",
@@ -166,7 +178,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--border)",
     },
     {
-        number: "02",
+        number: "03",
         title: "Arcana — Dashboard UI",
         description:
             "A data-rich dashboard concept with real-time charts, refined typography, and an obsessive attention to spacing and hierarchy.",
@@ -176,18 +188,18 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--accent-lt)",
     },
     {
-        number: "03",
+        number: "04",
         title: "Vellum — Blog Engine",
         description:
-            "A statically generated blog with MDX support, automatic OG image generation, and a reading-time estimate tuned for long-form essays.",
-        tags: ["Next.js", "MDX", "Vercel OG"],
+            "A headless CMS blog interface focused on reading experience. Features fluid typography scaling, reading time estimates, and custom MDX components.",
+        tags: ["Next.js", "MDX", "Framer Motion"],
         liveUrl: "", // TODO: paste live URL
         repoUrl: "", // TODO: paste repo URL
-        bg: "var(--accent)",
+        bg: "var(--bg)",
     },
     {
-        number: "04",
-        title: "Forma — Design System",
+        number: "05",
+        title: "Synapse — UI Kit",
         description:
             "A component library with tokens for colour, type, spacing and motion — distilled from production projects into a reusable kit.",
         tags: ["Storybook", "Tailwind", "TypeScript"],
@@ -196,7 +208,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--muted)",
     },
     {
-        number: "05",
+        number: "06",
         title: "Cinelounge — Movie Tracker",
         description:
             "A personal watchlist app that pulls from TMDb, lets you rate and tag films, and surfaces recommendations based on your taste graph.",
@@ -206,7 +218,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--border)",
     },
     {
-        number: "06",
+        number: "07",
         title: "Resonance — Audio Visualiser",
         description:
             "A WebGL audio visualiser that reacts to microphone input. Geometric shapes morph and pulse in sync with real-time frequency data.",
