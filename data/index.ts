@@ -121,7 +121,6 @@ export const PERSON: Person = {
 
 export const LANGUAGES: Language[] = [
     { name: "English", level: "Native", percent: 100 },
-    { name: "Hindi", level: "Fluent", percent: 90 },
     { name: "Spanish", level: "Conversational", percent: 68 },
     { name: "German", level: "Learning", percent: 42 },
 ];
@@ -132,7 +131,7 @@ export const STATS: Stat[] = [
     { value: "30+", label: "Sketches" },
     { value: "6", label: "Web Projects" },
     { value: "4+", label: "Code Projects" },
-    { value: "4", label: "Languages" },
+    { value: "3", label: "Languages" },
     { value: "80+", label: "WPM" },
 ];
 

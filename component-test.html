@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Component Test Bed</title>
+    <style>
+        /* Base styles matching your aesthetic */
+        :root {
+            --bg: #F7F2E8;
+            --card: #EDE6D4;
+            --hover: #E4DAC5;
+            --ink: #231D12;
+            --muted: #7A6A52;
+            --accent: #8B6747;
+            --accent-lt: #C4A882;
+            --border: #D6C8AE;
+            --surface: #FDFAF3;
+
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Jost', sans-serif;
+        }
+
+        .dark {
+            --bg: #12100E;
+            --card: #1D1914;
+            --hover: #26211C;
+            --ink: #E6DFD3;
+            --muted: #948773;
+            --accent: #C4A882;
+            --accent-lt: #8B6747;
+            --border: #3A322A;
+            --surface: #171411;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--font-body), sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) var(--bg);
+        }
+
+        body {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display), serif;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--ink);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--hover);
+            transition: width 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover:before {
+            width: 100%;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Card component */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-color: var(--accent-lt);
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover:before {
+            transform: scaleX(1);
+        }
+
+        /* Animated text reveal */
+        .text-reveal {
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .text-reveal span {
+            display: inline-block;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .text-reveal.animate span {
+            transform: translateY(0);
+        }
+
+        /* Floating element */
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Pulse animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(139, 103, 71, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(139, 103, 71, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(139, 103, 71, 0);
+            }
+        }
+
+        /* Glowing orb */
+        .glow-orb {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--accent-lt);
+            filter: blur(30px);
+            opacity: 0.6;
+            position: absolute;
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Section */
+        .section {
+            margin: 3rem 0;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--muted);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-lt);
+            border-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            background-color: var(--bg);
+            transform: translateX(30px);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 4px;
+            background: var(--card);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Tag */
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+            align-items: center;
+        }
+
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dark-mode-toggle">
+        <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <h1>UI Component Test Bed</h1>
+
+    <div class="glow-orb" style="top: 10%; left: 10%;"></div>
+    <div class="glow-orb" style="bottom: 20%; right: 15%; background: var(--accent);"></div>
+
+    <!-- Buttons Section -->
+    <div class="section">
+        <h2>Interactive Buttons</h2>
+        <div class="controls">
+            <button class="btn" id="primaryBtn">Primary Button</button>
+            <button class="btn pulse" id="pulseBtn">Pulse Button</button>
+            <button class="btn floating" id="floatingBtn">Floating Button</button>
+        </div>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="section">
+        <h2>Animated Cards</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Card with Hover Effect</h3>
+                <p>This card has a subtle hover effect that lifts it and changes the border color. The top accent line animates on hover.</p>
+            </div>
+            <div class="card">
+                <h3>Another Card</h3>
+                <p>Each card has a smooth entrance animation and interactive states that enhance the user experience.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Text Animations -->
+    <div class="section">
+        <h2>Text Reveal Animations</h2>
+        <p>Click the button below to trigger text reveal animations:</p>
+        <button class="btn" id="revealBtn">Reveal Text</button>
+        <h3 class="text-reveal" id="animatedHeading">
+            <span>A</span><span>n</span><span>i</span><span>m</span><span>a</span><span>t</span><span>e</span><span>d</span>
+            <span>H</span><span>e</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span>
+        </h3>
+        <p class="text-reveal" id="animatedText">
+            <span>T</span><span>h</span><span>i</span><span>s</span>
+            <span>p</span><span>a</span><span>r</span><span>a</span><span>g</span><span>r</span><span>a</span><span>p</span><span>h</span>
+            <span>w</span><span>i</span><span>l</span><span>l</span>
+            <span>r</span><span>e</span><span>v</span><span>e</span><span>a</span><span>l</span>
+            <span>i</span><span>t</span><span>s</span><span>e</span><span>l</span><span>f</span>
+            <span>w</span><span>h</span><span>e</span><span>n</span>
+            <span>y</span><span>o</span><span>u</span>
+            <span>c</span><span>l</span><span>i</span><span>c</span><span>k</span>
+            <span>t</span><span>h</span><span>e</span>
+            <span>b</span><span>u</span><span>t</span><span>t</span><span>o</span><span>n</span>.
+        </p>
+    </div>
+
+    <!-- Progress Indicators -->
+    <div class="section">
+        <h2>Progress Indicators</h2>
+        <button class="btn" id="progressBtn">Animate Progress</button>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="section">
+        <h2>Interactive Tags</h2>
+        <div>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">React</span>
+            <span class="tag">GSAP</span>
+            <span class="tag">Framer Motion</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">Tailwind</span>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('change', function() {
+            body.classList.toggle('dark');
+        });
+
+        // Button interactions
+        const primaryBtn = document.getElementById('primaryBtn');
+        primaryBtn.addEventListener('click', function() {
+            this.textContent = this.textContent === 'Primary Button' ? 'Clicked!' : 'Primary Button';
+        });
+
+        // Text reveal animation
+        const revealBtn = document.getElementById('revealBtn');
+        const animatedHeading = document.getElementById('animatedHeading');
+        const animatedText = document.getElementById('animatedText');
+
+        revealBtn.addEventListener('click', function() {
+            animatedHeading.classList.toggle('animate');
+            animatedText.classList.toggle('animate');
+        });
+
+        // Progress bar animation
+        const progressBtn = document.getElementById('progressBtn');
+        const progressFill = document.getElementById('progressFill');
+
+        progressBtn.addEventListener('click', function() {
+            // Reset animation
+            progressFill.style.width = '0%';
+
+            // Trigger animation
+            setTimeout(() => {
+                progressFill.style.width = '75%';
+            }, 10);
+        });
+
+        // Initialize some elements with animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate tags on load with stagger
+            const tags = document.querySelectorAll('.tag');
+            tags.forEach((tag, index) => {
+                setTimeout(() => {
+                    tag.style.transform = 'scale(1.1)';
+                    tag.style.transition = 'transform 0.3s ease';
+                    setTimeout(() => {
+                        tag.style.transform = 'scale(1)';
+                    }, 300);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

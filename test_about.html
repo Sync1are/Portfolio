@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test UI Components - About</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+
+        :root {
+            --bg-color: #12100e;
+            --text-main: #e8e2d2;
+            --text-muted: #8c8374;
+            --border-color: rgba(163, 155, 140, 0.15);
+            --accent-color: #c4b59b;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+            /* For custom cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-outline {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(232, 226, 210, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+        }
+
+        /* Layout */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.4s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text-main);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -6px;
+            left: 50%;
+            background-color: var(--text-main);
+            transition: width 0.4s ease, left 0.4s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+            transition: all 0.4s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+            transform: rotate(90deg);
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 4rem 8rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Page Indicator */
+        .page-indicator {
+            position: fixed;
+            right: 4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.8;
+            color: var(--text-muted);
+        }
+
+        .page-indicator .small-num {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .page-indicator .line {
+            width: 1px;
+            height: 40px;
+            background-color: var(--border-color);
+            margin: 5px 0;
+        }
+
+        .page-indicator .large-num {
+            position: absolute;
+            font-family: var(--font-serif);
+            font-size: 30rem;
+            color: rgba(255, 255, 255, 0.015);
+            right: -8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1;
+            line-height: 1;
+        }
+
+        /* Left Column */
+        .about-text h4 {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .about-text h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 3.5rem;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            line-height: 2;
+            max-width: 95%;
+            font-weight: 300;
+        }
+
+        .about-text strong {
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        /* Languages Progress Bars */
+        .languages {
+            margin-top: 5rem;
+            max-width: 95%;
+        }
+
+        .languages h4 {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .lang-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        .lang-name {
+            width: 100px;
+            color: var(--text-main);
+            font-weight: 300;
+        }
+
+        .lang-bar-container {
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 0 1.5rem;
+            position: relative;
+        }
+
+        .lang-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: transparent;
+            border-bottom: 1px solid var(--accent-color);
+            width: 0;
+            /* Animated */
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: left;
+        }
+
+        .lang-level {
+            width: 80px;
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 300;
+        }
+
+        /* Right Column */
+        .right-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.7) contrast(1.1);
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), filter 0.8s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.04);
+            filter: grayscale(30%) brightness(0.8) contrast(1.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-top: none;
+        }
+
+        .stat-box {
+            border: 1px solid var(--border-color);
+            padding: 3.5rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            margin-top: -1px;
+            margin-left: -1px;
+            background-color: transparent;
+        }
+
+        /* Hover background gradient */
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .stat-box:hover {
+            border-color: rgba(232, 226, 210, 0.3);
+            z-index: 1;
+        }
+
+        .stat-box:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            display: block;
+            transform: translateY(0);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.4s ease;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-box:hover .stat-number {
+            transform: translateY(-8px);
+            color: #fff;
+        }
+
+        .empty-box {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .empty-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: repeating-linear-gradient(-45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(163, 155, 140, 0.03) 10px,
+                    rgba(163, 155, 140, 0.03) 11px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .empty-box:hover::after {
+            opacity: 1;
+        }
+
+        /* Floating Nav Buttons */
+        .floating-btn {
+            position: fixed;
+            bottom: 2.5rem;
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            cursor: none;
+            background-color: var(--bg-color);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        .floating-btn::after {
+            content: '';
+            position: absolute;
+            background-color: var(--text-main);
+            width: 100%;
+            height: 100%;
+            top: 100%;
+            left: 0;
+            transition: top 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .btn-left {
+            left: 2.5rem;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .btn-right {
+            right: 2.5rem;
+            font-size: 1.2rem;
+        }
+
+        .floating-btn:hover {
+            color: var(--bg-color);
+            transform: scale(1.1);
+            border-color: var(--text-main);
+        }
+
+        .floating-btn:hover::after {
+            top: 0;
+            border-radius: 0;
+        }
+
+        /* Animations classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .fade-in-up.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered delays */
+        .delay-100 {
+            transition-delay: 0.1s;
+        }
+
+        .delay-200 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-300 {
+            transition-delay: 0.3s;
+        }
+
+        .delay-400 {
+            transition-delay: 0.4s;
+        }
+
+        .delay-500 {
+            transition-delay: 0.5s;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                padding: 2rem;
+            }
+
+            .page-indicator {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 2rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header class="fade-in-up appear">
+        <a href="#" class="logo">Aze.</a>
+        <nav>
+            <a href="#" class="active">ABOUT</a>
+            <a href="#">SKILLS</a>
+            <a href="#">PROJECTS</a>
+            <a href="#">ART</a>
+            <a href="#">MUSIC</a>
+            <a href="#">TASTE</a>
+            <a href="#">SOCIALS</a>
+            <button class="theme-toggle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <div class="page-indicator">
+        <span class="small-num">02</span>
+        <div class="line"></div>
+        <span class="small-num" style="margin-top: 5px;">12</span>
+        <div class="large-num">2</div>
+    </div>
+
+    <main>
+        <div class="left-column">
+            <div class="about-text">
+                <h4 class="fade-in-up delay-100">ABOUT ME</h4>
+                <h1 class="fade-in-up delay-200">A bit about who I am</h1>
+                <p class="fade-in-up delay-300">
+                    I'm a <strong>multidisciplinary creator</strong> who moves between code editors and sketchbooks with
+                    equal comfort. My work lives at the crossroads of <strong>technology and aesthetics</strong> —
+                    building digital experiences that feel as considered as a well-set page of type.
+                </p>
+                <p class="fade-in-up delay-400">
+                    When I'm not pushing pixels or debugging state machines, you'll find me <strong>sketching
+                        portraits</strong>, curating playlists that tell stories, or getting lost in open-world games
+                    that feel like living inside a painting.
+                </p>
+                <p class="fade-in-up delay-500">
+                    I believe the best work comes from <strong>genuine curiosity</strong>, quiet persistence, and a
+                    healthy disregard for the phrase "that's how it's always been done."
+                </p>
+            </div>
+
+            <div class="languages">
+                <h4 class="fade-in-up appear">LANGUAGES I SPEAK</h4>
+
+                <div class="lang-item fade-in-up appear" style="transition-delay: 0.1s">
+                    <span class="lang-name">English</span>
+                    <div class="lang-bar-container">
+                        <div class="lang-bar" data-width="95%"></div>
+                    </div>
+                    <span class="lang-level">Native</span>
+                </div>
+
+                <div class="lang-item fade-in-up appear" style="transition-delay: 0.2s">
+                    <span class="lang-name">Spanish</span>
+                    <div class="lang-bar-container">
+                        <div class="lang-bar" data-width="60%"></div>
+                    </div>
+                    <span class="lang-level">Conversational</span>
+                </div>
+
+                <div class="lang-item fade-in-up appear" style="transition-delay: 0.3s">
+                    <span class="lang-name">German</span>
+                    <div class="lang-bar-container">
+                        <div class="lang-bar" data-width="30%"></div>
+                    </div>
+                    <span class="lang-level">Learning</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="right-content">
+                <div class="image-container fade-in-up delay-300">
+                    <!-- using a suitable building/balcony photo from unsplash roughly matching the monochrome tree/balcony vibe -->
+                    <img src="https://images.unsplash.com/photo-1558284560-6dd8a23aeb96?q=80&w=1470&auto=format&fit=crop"
+                        alt="Balcony and trees">
+                </div>
+                <div class="stats-grid fade-in-up delay-400">
+                    <div class="stat-box">
+                        <span class="stat-number">30+</span>
+                        <span class="stat-label">SKETCHES</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">WEB PROJECTS</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">4+</span>
+                        <span class="stat-label">CODE PROJECTS</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">LANGUAGES</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">80+</span>
+                        <span class="stat-label">WPM</span>
+                    </div>
+                    <div class="stat-box empty-box">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="floating-btn btn-left">N</div>
+    <div class="floating-btn btn-right">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+    </div>
+
+    <script>
+        // Custom Cursor Logic
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+
+            // Delay for outline to create a trailing effect
+            outline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 300, fill: "forwards" });
+        });
+
+        // Add hover effect for clickable elements
+        const clickables = document.querySelectorAll('a, button, .stat-box, .floating-btn');
+        clickables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                outline.style.width = '50px';
+                outline.style.height = '50px';
+                outline.style.backgroundColor = 'rgba(232, 226, 210, 0.05)';
+                outline.style.borderColor = 'rgba(232, 226, 210, 0.5)';
+                dot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                outline.style.width = '32px';
+                outline.style.height = '32px';
+                outline.style.backgroundColor = 'transparent';
+                outline.style.borderColor = 'rgba(232, 226, 210, 0.3)';
+                dot.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+
+                    // Specific logic for language bars to animate after parent appears
+                    if (entry.target.querySelectorAll('.lang-bar').length > 0) {
+                        setTimeout(() => {
+                            entry.target.querySelectorAll('.lang-bar').forEach(bar => {
+                                bar.style.width = bar.getAttribute('data-width');
+                            });
+                        }, 500); // Wait for fade in
+                    } else if (entry.target.classList.contains('lang-bar')) {
+                        entry.target.style.width = entry.target.getAttribute('data-width');
+                    }
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Initial trigger for language bars
+        setTimeout(() => {
+            document.querySelectorAll('.lang-bar').forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.getAttribute('data-width');
+                }, index * 200);
+            });
+        }, 800);
+
+        // Parallax effect
+        const bgNumber = document.querySelector('.large-num');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (bgNumber) {
+                bgNumber.style.transform = `translateY(calc(-50% - ${scrollY * 0.15}px))`;
+            }
+        });
+    </script>
+</body>
+
+</html>
