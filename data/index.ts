@@ -228,6 +228,63 @@ export const WEB_PROJECTS: Project[] = [
     },
 ];
 
+/* ── Experience / Timeline ───────────────────────────────── */
+
+export interface Experience {
+    year: string;
+    title: string;
+    org: string;
+    description: string;
+    type: "work" | "education" | "project";
+    tags?: string[];
+}
+
+export const EXPERIENCE: Experience[] = [
+    {
+        year: "2007",
+        title: "Chapter One",
+        org: "The Beginning",
+        description:
+            "Entered the world. Spent the early years doing what kids do best — being curious about everything and touching things I probably shouldn't have.",
+        type: "project",
+    },
+    {
+        year: "2009 — 2017",
+        title: "School Arc",
+        org: "The Average Student Era",
+        description:
+            "Went through school as a pretty average student. Nothing extraordinary on paper — but seeds of curiosity were being planted between the lines of textbooks.",
+        type: "education",
+    },
+    {
+        year: "2017 — 2019",
+        title: "First Lines of Code",
+        org: "Self-Taught",
+        description:
+            "Got introduced to coding through school, but the curriculum felt... limiting. Started self-learning because the rabbit hole was way more interesting than the syllabus.",
+        type: "project",
+        tags: ["HTML/CSS", "Python", "Curiosity"],
+    },
+    {
+        year: "2020 — 2022",
+        title: "The Lockdown Renaissance",
+        org: "Home Studio",
+        description:
+            "Covid happened and suddenly there was all the time in the world. Doubled down on coding, picked up sketching, got deep into music — turned free time into a creative goldmine.",
+        type: "project",
+        tags: ["JavaScript", "Sketching", "Music", "Self-Learning"],
+    },
+    {
+        year: "2022 — 2025",
+        title: "Going All In",
+        org: "The Nerd Arc (don't call me that)",
+        description:
+            "Hugely invested in coding, AI/ML, prompt engineering, and all the other nerdy stuff. Building projects, breaking things, learning fast. Trust me though — I'm NOT a nerd. Okay maybe a little.",
+        type: "work",
+        tags: ["React", "Next.js", "AI/ML", "Prompt Engineering", "GSAP"],
+    },
+];
+
 /* ── Code / Python Projects ───────────────────────────────── */
 
 export const CODE_PROJECTS: CodeProject[] = [

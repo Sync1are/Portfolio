@@ -13,6 +13,10 @@
 
   --font-display: var(--font-cormorant), serif;
   --font-body: var(--font-jost), sans-serif;
+
+  --color-card-foreground: var(--ink);
+
+  --animate-spotlight: spotlight 2s ease .75s 1 forwards;
 }
 
 :root {
@@ -54,7 +58,32 @@ html {
   color: var(--ink);
   font-family: var(--font-jost), sans-serif;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) var(--bg);
+  scrollbar-color: var(--accent) transparent;
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 99px;
+  border: 2px solid var(--bg);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-lt);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  border-color: var(--bg);
 }
 
 body {
@@ -155,6 +184,19 @@ body::after {
 
   100% {
     transform: translate(0px, 0px) scale(1);
+  }
+}
+
+/* ── Spotlight animation ──────────────────────────────────────── */
+
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
   }
 }
 

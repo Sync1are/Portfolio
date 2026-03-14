@@ -39,10 +39,22 @@ const config: Config = {
                     "0%, 100%": { transform: "scaleY(1)" },
                     "50%": { transform: "scaleY(0.25)" },
                 },
+                spotlight: {
+                    "0%": {
+                        opacity: "0",
+                        transform: "translate(-72%, -62%) scale(0.5)",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translate(-50%, -40%) scale(1)",
+                    },
+                },
             },
             animation: {
                 "scroll-fill": "scroll-fill 1.8s ease-in-out infinite",
                 mbar: "mbar 0.8s ease-in-out infinite",
+                spotlight:
+                    "spotlight 2s ease .75s 1 forwards",
             },
         },
     },

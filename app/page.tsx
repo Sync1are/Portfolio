@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Dynamically import everything below the fold to massively reduce main thread blocking
 // during hydration and initial load.
 const Skills = dynamic(() => import("@/components/sections/Skills"));
+const FeaturedProject = dynamic(() => import("@/components/sections/FeaturedProject"));
 const WebProjects = dynamic(() => import("@/components/sections/WebProjects"));
 const CodeProjects = dynamic(() => import("@/components/sections/CodeProjects"));
 const ArtGallery = dynamic(() => import("@/components/sections/ArtGallery"));
@@ -72,6 +73,7 @@ export default function HomePage() {
         <Hero />
         <About />
         <Skills />
+        <FeaturedProject />
         <WebProjects />
         <CodeProjects />
         <ArtGallery />

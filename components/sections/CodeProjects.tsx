@@ -1,93 +1,64 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import { Timeline } from "@/components/ui/timeline";
 import SectionLabel from "@/components/ui/SectionLabel";
-import { CODE_PROJECTS } from "@/data";
+import { EXPERIENCE } from "@/data";
 
-gsap.registerPlugin(ScrollTrigger);
+const ExperienceTimeline = React.memo(function ExperienceTimeline() {
+    const data = EXPERIENCE.map((exp) => ({
+        title: exp.year,
+        content: (
+            <div>
+                {/* Type badge */}
+                <span className="inline-block text-[0.62rem] tracking-[0.15em] uppercase text-accent font-body px-2.5 py-1 rounded-full border border-accent/20 bg-accent/5 mb-4">
+                    {exp.type}
+                </span>
 
-const CodeProjects = React.memo(function CodeProjects() {
-    const sectionRef = useRef<HTMLElement>(null);
+                {/* Title & Org */}
+                <h4 className="font-display text-xl md:text-2xl leading-[1.2] mb-1">
+                    {exp.title}
+                </h4>
+                <span className="text-[0.8rem] text-accent/70 font-body tracking-wide">
+                    {exp.org}
+                </span>
 
-    useEffect(() => {
-        if (!sectionRef.current) return;
-        const ctx = gsap.context(() => {
-            gsap.fromTo(
-                ".reveal-item",
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    stagger: 0.1,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 85%",
-                    },
-                }
-            );
-        }, sectionRef);
-        return () => ctx.revert();
-    }, []);
+                {/* Description */}
+                <p className="mt-3 text-muted text-xs md:text-sm font-body leading-[1.7] max-w-lg">
+                    {exp.description}
+                </p>
+
+                {/* Tags */}
+                {exp.tags && exp.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-5">
+                        {exp.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="text-[0.6rem] tracking-[0.08em] uppercase px-2.5 py-1 rounded-full border border-border/50 text-muted font-body"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                )}
+            </div>
+        ),
+    }));
 
     return (
-        <section
-            ref={sectionRef}
-            id="code-projects"
-            className="section-padding bg-bg border-t border-border"
-        >
+        <section id="experience" className="section-padding bg-bg border-t border-border">
             <div className="max-w-[1180px] mx-auto px-11 max-sm:px-6">
-                <div className="reveal-item">
-                    <SectionLabel>Python & Code</SectionLabel>
-                    <h2 className="font-display text-[2.8rem] max-sm:text-[2rem] font-light mb-14 leading-[1.1]">
-                        Scripts, tools & experiments
-                    </h2>
-                </div>
-
-                <div className="divide-y divide-border">
-                    {CODE_PROJECTS.map((project, i) => {
-                        const Wrapper = project.link ? "a" : "div";
-                        const props = project.link ? { href: project.link, target: "_blank", rel: "noopener noreferrer" } : {};
-
-                        return (
-                            <Wrapper
-                                key={project.title}
-                                {...props}
-                                className={`reveal-item grid grid-cols-[56px_1fr_auto] items-center gap-8 py-[26px] hover:pl-3 transition-all duration-300 max-sm:grid-cols-[40px_1fr] max-sm:gap-4 ${project.link ? "cursor-pointer hover:text-accent" : ""
-                                    }`}
-                            >
-                                {/* Row number */}
-                                <span className="font-display text-[2rem] font-light text-border leading-none">
-                                    {String(i + 1).padStart(2, "0")}
-                                </span>
-
-                                {/* Info */}
-                                <div>
-                                    <h3 className="font-display text-[1.25rem] leading-[1.3] mb-1 group-hover:text-accent transition-colors">
-                                        {project.title}
-                                        {project.link && (
-                                            <span className="inline-block ml-2 text-[0.8rem] opacity-50">↗</span>
-                                        )}
-                                    </h3>
-                                    <p className="text-[0.81rem] text-muted leading-[1.6]">
-                                        {project.description}
-                                    </p>
-                                </div>
-
-                                {/* Stack */}
-                                <span className="text-[0.68rem] tracking-[0.1em] uppercase text-accent whitespace-nowrap max-sm:hidden">
-                                    {project.stack}
-                                </span>
-                            </Wrapper>
-                        );
-                    })}
-                </div>
+                <SectionLabel>Journey</SectionLabel>
+                <h2 className="font-display text-[2.8rem] max-sm:text-[2rem] font-light mb-4 leading-[1.1]">
+                    Experience &amp; education
+                </h2>
+                <p className="text-muted text-sm md:text-base max-w-md mb-6 font-body">
+                    A timeline of the roles, projects, and learning that shaped where I am today.
+                </p>
             </div>
+            <Timeline data={data} />
         </section>
     );
 });
 
-export default CodeProjects;
+export default ExperienceTimeline;
