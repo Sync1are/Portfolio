@@ -85,7 +85,9 @@ export interface Game {
     title: string;
     description: string;
     genre: string;
-    emoji: string;
+    year: string;
+    cover: string;
+    hero?: string;
 }
 
 export interface Hobby {
@@ -502,37 +504,43 @@ export const GAMES: Game[] = [
     {
         title: "Red Dead Redemption 2",
         description:
-            "A sprawling western that trades twitch reflexes for quiet moments on horseback. The most lived-in open world ever made.",
+            "A slow-burn western about weather, consequence, and the luxury of wandering with no urgency except the horizon.",
         genre: "Open World · Action",
-        emoji: "🤠",
+        year: "2018",
+        cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900_2x.jpg",
+        hero: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/capsule_616x353.jpg",
     },
     {
         title: "Hollow Knight",
         description:
-            "A hand-drawn metroidvania with hauntingly beautiful art and a difficulty curve that earns every victory.",
+            "The kind of melancholy worldbuilding that makes every hallway feel sacred and every boss earned.",
         genre: "Metroidvania · Indie",
-        emoji: "🦋",
+        year: "2017",
+        cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/367520/library_600x900_2x.jpg",
     },
     {
         title: "Celeste",
         description:
-            "A precision platformer wrapped in a sincere story about anxiety, self-doubt, and climbing a very big mountain.",
+            "Precise, generous, and emotionally honest in a way very few platformers ever bother to be.",
         genre: "Platformer · Indie",
-        emoji: "⛰️",
+        year: "2018",
+        cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/504230/library_600x900_2x.jpg",
     },
     {
         title: "The Witcher 3",
         description:
-            "The gold standard for narrative RPGs. Every side quest feels like a short story written by someone who cares.",
+            "An RPG benchmark where even the side stories feel like someone stayed late to make them worth remembering.",
         genre: "RPG · Open World",
-        emoji: "⚔️",
+        year: "2015",
+        cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/292030/library_600x900_2x.jpg",
     },
     {
         title: "Journey",
         description:
-            "Two hours of wordless, wind-swept beauty. A multiplayer experience that turns strangers into companions.",
+            "Proof that restraint can hit harder than spectacle when art direction, pacing, and feeling are in lockstep.",
         genre: "Adventure · Art Game",
-        emoji: "🏜️",
+        year: "2019",
+        cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/638230/library_600x900_2x.jpg",
     },
 ];
 
@@ -632,6 +640,6 @@ export const NAV_LINKS = [
     { label: "Projects", href: "#web-projects" },
     { label: "Art", href: "#art" },
     { label: "Music", href: "#music" },
-    { label: "Taste", href: "#movies" },
+    { label: "Taste", href: "#games" },
     { label: "Socials", href: "#socials" },
 ] as const;
