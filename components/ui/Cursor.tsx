@@ -5,6 +5,8 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export function Cursor() {
     const [hovering, setHovering] = useState(false);
+    const [ready, setReady] = useState(false);
+    const [isTouchDevice, setIsTouchDevice] = useState(true);
 
     // Exact mouse position for the dot
     const mouseX = useMotionValue(-100);
@@ -21,11 +23,13 @@ export function Cursor() {
     const historyRef = useRef<{ x: number, y: number }[]>(Array(20).fill({ x: -100, y: -100 }));
 
     useEffect(() => {
-        const isTouchDevice =
-            typeof window !== "undefined" &&
-            ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+        const touchDevice =
+            "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-        if (isTouchDevice) return;
+        setIsTouchDevice(touchDevice);
+        setReady(true);
+
+        if (touchDevice) return;
 
         let frameId: number;
 
@@ -79,12 +83,7 @@ export function Cursor() {
         };
     }, [mouseX, mouseY]);
 
-    // Handle touch device check for rendering
-    const isTouchDevice =
-        typeof window !== "undefined" &&
-        ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
-    if (isTouchDevice) return null;
+    if (!ready || isTouchDevice) return null;
 
     return (
         <>

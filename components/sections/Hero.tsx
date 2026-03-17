@@ -146,8 +146,22 @@ const Hero = React.memo(function Hero() {
                 fill="white"
             />
 
+            {/* Backdrop word behind the robot */}
+            <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-[44%] z-[2] -translate-x-1/2 -translate-y-1/2 select-none font-body font-semibold uppercase md:top-[46%]"
+                style={{
+                    fontSize: "clamp(8rem, 30vw, 26rem)",
+                    letterSpacing: "0.18em",
+                    lineHeight: 0.8,
+                    color: "rgba(101, 86, 68, 0.28)",
+                }}
+            >
+                AZE
+            </span>
+
             {/* Spline 3D Background */}
-            <div ref={canvasWrapRef} className="absolute inset-0 z-0 opacity-0">
+            <div ref={canvasWrapRef} className="absolute inset-0 z-[3] opacity-0">
                 <SplineScene
                     scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                     className="w-full h-full"
