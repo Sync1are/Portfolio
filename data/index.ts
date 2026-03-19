@@ -131,7 +131,7 @@ export const LANGUAGES: Language[] = [
 
 export const STATS: Stat[] = [
     { value: "30+", label: "Sketches" },
-    { value: "6", label: "Web Projects" },
+    { value: "8", label: "Web Projects" },
     { value: "4+", label: "Code Projects" },
     { value: "3", label: "Languages" },
     { value: "80+", label: "WPM" },
@@ -170,6 +170,17 @@ export const WEB_PROJECTS: Project[] = [
     },
     {
         number: "02",
+        title: "Zenith — Task Management",
+        description:
+            "A full-featured task management app with auto-login demo. Features real-time collaboration, drag-and-drop kanban boards, and a polished dashboard interface.",
+        tags: ["Next.js", "TypeScript", "PostgreSQL"],
+        liveUrl: "https://zenith-puce-iota.vercel.app/?portfolioKey=10071980",
+        repoUrl: "",
+        bg: "var(--accent-lt)",
+        iframeUrl: "https://zenith-puce-iota.vercel.app/?portfolioKey=10071980",
+    },
+    {
+        number: "03",
         title: "Spectral — Portfolio Theme",
         description:
             "A minimal portfolio template built with Next.js and Tailwind. Features scroll-driven animations, dark mode, and an editorial layout inspired by print design.",
@@ -179,7 +190,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--border)",
     },
     {
-        number: "03",
+        number: "04",
         title: "Arcana — Dashboard UI",
         description:
             "A data-rich dashboard concept with real-time charts, refined typography, and an obsessive attention to spacing and hierarchy.",
@@ -189,7 +200,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--accent-lt)",
     },
     {
-        number: "04",
+        number: "05",
         title: "Vellum — Blog Engine",
         description:
             "A headless CMS blog interface focused on reading experience. Features fluid typography scaling, reading time estimates, and custom MDX components.",
@@ -199,7 +210,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--bg)",
     },
     {
-        number: "05",
+        number: "06",
         title: "Synapse — UI Kit",
         description:
             "A component library with tokens for colour, type, spacing and motion — distilled from production projects into a reusable kit.",
@@ -209,7 +220,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--muted)",
     },
     {
-        number: "06",
+        number: "07",
         title: "Cinelounge — Movie Tracker",
         description:
             "A personal watchlist app that pulls from TMDb, lets you rate and tag films, and surfaces recommendations based on your taste graph.",
@@ -219,7 +230,7 @@ export const WEB_PROJECTS: Project[] = [
         bg: "var(--border)",
     },
     {
-        number: "07",
+        number: "08",
         title: "Resonance — Audio Visualiser",
         description:
             "A WebGL audio visualiser that reacts to microphone input. Geometric shapes morph and pulse in sync with real-time frequency data.",
