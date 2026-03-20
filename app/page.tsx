@@ -16,6 +16,7 @@ const Skills = dynamic(() => import("@/components/sections/Skills"));
 const FeaturedProject = dynamic(() => import("@/components/sections/FeaturedProject"));
 const WebProjects = dynamic(() => import("@/components/sections/WebProjects"));
 const CodeProjects = dynamic(() => import("@/components/sections/CodeProjects"));
+const GithubActivity = dynamic(() => import("@/components/sections/GithubActivity"));
 const ArtGallery = dynamic(() => import("@/components/sections/ArtGallery"));
 const Music = dynamic(() => import("@/components/sections/Music"));
 const Games = dynamic(() => import("@/components/sections/Games"));
@@ -76,6 +77,7 @@ export default function HomePage() {
         <FeaturedProject />
         <WebProjects />
         <CodeProjects />
+        <GithubActivity />
         <ArtGallery />
         <Quote text="Technology is best when it brings people together." author="Matt Mullenweg" />
         <Music />
